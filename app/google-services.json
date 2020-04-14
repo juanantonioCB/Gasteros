@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "450209341365",
+    "firebase_url": "https://gasteros-7367d.firebaseio.com",
+    "project_id": "gasteros-7367d",
+    "storage_bucket": "gasteros-7367d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450209341365:android:8805af3ecc808635f383fc",
+        "android_client_info": {
+          "package_name": "com.juanantonio.gasteros"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450209341365-lcqlvm2qq97gbqkd0akhi4p61am1an5t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.juanantonio.gasteros",
+            "certificate_hash": "39c7a7be9e35f8f82bd133217e94ab28aa3fef49"
+          }
+        },
+        {
+          "client_id": "450209341365-q1avmv360lga71aa9mt2i11ro3i4ji9i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbxZSqLfhFAeXR9VCjctDGp63vuHH9pa4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450209341365-q1avmv360lga71aa9mt2i11ro3i4ji9i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

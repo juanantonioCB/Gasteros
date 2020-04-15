@@ -54,7 +54,7 @@ public class LoginPresenter implements LoginInterface.Presenter {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            dr.child("Usuarios").setValue(task.getResult().getUser().getUid());
+                            //dr.child("Usuarios").setValue(task.getResult().getUser().getUid());
                             FirebaseUser user = mAuth.getCurrentUser();
                             openApp();
                         } else {

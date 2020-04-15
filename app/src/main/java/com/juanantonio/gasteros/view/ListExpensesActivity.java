@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.juanantonio.gasteros.GlobalApplication;
@@ -41,7 +42,6 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Nombre de la lista");
-
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
         builder.setView(input);
@@ -49,7 +49,7 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 System.out.println(input.getText().toString());
-
+                presenter.addNewList(input.getText().toString());
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -59,5 +59,10 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
             }
         });
         builder.show();
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
     }
 }

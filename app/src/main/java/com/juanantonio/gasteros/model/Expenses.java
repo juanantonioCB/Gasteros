@@ -28,4 +28,11 @@ public class Expenses {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString(){
+        return "Nombre: "+this.name+"\n"+
+                "Cantidad: "+this.amount+"\n"+
+                "User Id"+this.userId+"\n";
+    }
 }

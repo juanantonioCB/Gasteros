@@ -1,12 +1,16 @@
 package com.juanantonio.gasteros.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,18 +21,31 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.juanantonio.gasteros.GlobalApplication;
 import com.juanantonio.gasteros.R;
 import com.juanantonio.gasteros.interfaces.ListExpensesInterface;
+import com.juanantonio.gasteros.model.ListExpenses;
+import com.juanantonio.gasteros.presenter.ListExpensesAdapter;
 import com.juanantonio.gasteros.presenter.ListExpensesPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListExpensesActivity extends AppCompatActivity implements ListExpensesInterface.View {
 
-    private ListExpensesInterface.Presenter presenter;
-    private FloatingActionButton addListButton;
+    public ListExpensesInterface.Presenter presenter;
+    public FloatingActionButton addListButton;
+    public RecyclerView rv;
+    public ListExpensesAdapter adapter;
+    private ArrayList<ListExpenses> list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_expenses);
-        presenter=new ListExpensesPresenter(this);
-        addListButton=findViewById(R.id.addListButton);
+        presenter = new ListExpensesPresenter(this);
+        this.rv = findViewById(R.id.listRecyclerView);
+        this.rv.setHasFixedSize(true);
+        this.rv.setLayoutManager(new LinearLayoutManager(this));
+
+        addListButton = findViewById(R.id.addListButton);
         addListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,9 +53,38 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
 
             }
         });
+        presenter.loadList();
+
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
+
+                String id = list.get(viewHolder.getAdapterPosition()).getOwnerId();
+                presenter.removeList(id);
+                adapter.removeAt(viewHolder.getAdapterPosition());
+                //presenter.getPersons();
+                Toast.makeText(getApplicationContext(), "Borrado Correctamente", Toast.LENGTH_SHORT).show();
+                Log.d("Borrado", String.valueOf(viewHolder.getAdapterPosition()));
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                final int fromPos = viewHolder.getAdapterPosition();
+                final int toPos = target.getAdapterPosition();
+                return true;
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(rv);
+        //presenter.getPersons();
+
     }
 
-    public void openDialog(){
+
+    public void openDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Nombre de la lista");
@@ -63,6 +109,21 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
 
     @Override
     public void showToast(String message) {
-        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void loadList(List<ListExpenses> listExpenses) {
+        if (listExpenses == null) {
+            listExpenses = new ArrayList<>();
+        }
+        this.list = (ArrayList<ListExpenses>) listExpenses;
+        adapter = new ListExpensesAdapter((ArrayList<ListExpenses>) listExpenses, this);
+        rv.setAdapter(adapter);
+        System.out.println("--------------" + listExpenses.size());
+        adapter.notifyDataSetChanged();
+
+    }
+
+
 }

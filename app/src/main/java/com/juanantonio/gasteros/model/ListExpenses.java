@@ -39,4 +39,12 @@ public class ListExpenses {
     public void setExpenses(List<Expenses> expenses) {
         this.expenses = expenses;
     }
+
+    @Override
+    public String toString(){
+        return "Nombre: "+this.name+"\n"+
+                "Owner ID "+this.ownerId+"\n"+
+                "Company ID "+this.companyId+"\n"+
+                "Gastos: "+this.expenses+"\n";
+    }
 }

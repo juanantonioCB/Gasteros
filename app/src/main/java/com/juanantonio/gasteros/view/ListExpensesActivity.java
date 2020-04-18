@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.juanantonio.gasteros.GlobalApplication;
 import com.juanantonio.gasteros.R;
 import com.juanantonio.gasteros.interfaces.ListExpensesInterface;
+import com.juanantonio.gasteros.model.Expenses;
 import com.juanantonio.gasteros.model.ListExpenses;
 import com.juanantonio.gasteros.presenter.ListExpensesAdapter;
 import com.juanantonio.gasteros.presenter.ListExpensesPresenter;
@@ -28,7 +30,7 @@ import com.juanantonio.gasteros.presenter.ListExpensesPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListExpensesActivity extends AppCompatActivity implements ListExpensesInterface.View {
+public class ListExpensesActivity extends AppCompatActivity implements ListExpensesInterface.View, ListExpensesAdapter.OnListExpenseListener {
 
     public ListExpensesInterface.Presenter presenter;
     public FloatingActionButton addListButton;
@@ -61,7 +63,7 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
 
-                String id = list.get(viewHolder.getAdapterPosition()).getOwnerId();
+                String id = list.get(viewHolder.getAdapterPosition()).getId();
                 presenter.removeList(id);
                 adapter.removeAt(viewHolder.getAdapterPosition());
                 //presenter.getPersons();
@@ -118,12 +120,24 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
             listExpenses = new ArrayList<>();
         }
         this.list = (ArrayList<ListExpenses>) listExpenses;
-        adapter = new ListExpensesAdapter((ArrayList<ListExpenses>) listExpenses, this);
+        adapter = new ListExpensesAdapter((ArrayList<ListExpenses>) listExpenses, this, this);
         rv.setAdapter(adapter);
         System.out.println("--------------" + listExpenses.size());
         adapter.notifyDataSetChanged();
 
     }
 
+    @Override
+    public void openListExpenses(String id) {
+        Intent i = new Intent(this, ExpensesActivity.class);
+        i.putExtra("id", id);
+        startActivity(i);
+    }
 
+
+    @Override
+    public void onListExpenseClick(int position) {
+        System.out.println("clikkkkk " + position);
+        presenter.openListExpenses(this.list.get(position).getId());
+    }
 }

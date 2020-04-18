@@ -42,10 +42,13 @@ public class ListExpensesPresenter implements ListExpensesInterface.Presenter {
         ListExpenses list = new ListExpenses();
         list.setName(name);
         list.setOwnerId(user.getUid());
-        if (this.dr.child("Listas").push().setValue(list).isComplete()) {
+
+        list.setId(dr.child("Listas").push().getKey());
+
+        this.dr.child("Listas").push().setValue(list);
             System.out.println("okkkkk");
             view.showToast("Lista añadida correctamente");
-        }
+
         view.showToast("Lista añadida correctamente");
     }
 
@@ -80,8 +83,7 @@ public class ListExpensesPresenter implements ListExpensesInterface.Presenter {
     @Override
     public void removeList(String id) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        Query applesQuery = ref.child("Listas").orderByChild("ownerId").equalTo(id);
-
+        Query applesQuery = ref.child("Listas").orderByChild("id").equalTo(id);
         applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -93,8 +95,14 @@ public class ListExpensesPresenter implements ListExpensesInterface.Presenter {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("ERROR", "onCancelled", databaseError.toException());
+                System.out.println("ERRORRRRRRRRRRRRRRRRRR");
             }
         });
+    }
+
+    @Override
+    public void openListExpenses(String id) {
+        view.openListExpenses(id);
     }
 
 

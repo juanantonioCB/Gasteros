@@ -9,7 +9,7 @@ public interface ListExpensesInterface {
         void openDialog();
         void showToast(String message);
         void loadList(List<ListExpenses> listExpenses);
-
+        void openListExpenses(String id);
     }
 
     public interface Presenter {
@@ -17,5 +17,6 @@ public interface ListExpensesInterface {
         void addNewList(String name);
         void loadList();
         void removeList(String id);
+        void openListExpenses(String id);
     }
 }

@@ -1,9 +1,21 @@
 package com.juanantonio.gasteros.model;
 
+import java.util.Date;
+
 public class Expenses {
     private String name;
     private float amount;
+    private Date date;
     private String userId;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     private String listId;
 
     public String getListId() {

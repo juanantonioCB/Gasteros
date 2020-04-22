@@ -6,7 +6,16 @@ public class Expenses {
     private String name;
     private float amount;
     private Date date;
+    private String idExpense;
     private String userId;
+
+    public String getIdExpense() {
+        return idExpense;
+    }
+
+    public void setIdExpense(String idExpense) {
+        this.idExpense = idExpense;
+    }
 
     public Date getDate() {
         return date;

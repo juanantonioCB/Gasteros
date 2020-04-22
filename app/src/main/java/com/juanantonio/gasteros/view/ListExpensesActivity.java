@@ -52,17 +52,13 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
             @Override
             public void onClick(View v) {
                 presenter.openDialog();
-
             }
         });
         presenter.loadList();
-
-
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-
                 String id = list.get(viewHolder.getAdapterPosition()).getId();
                 presenter.removeList(id);
                 adapter.removeAt(viewHolder.getAdapterPosition());

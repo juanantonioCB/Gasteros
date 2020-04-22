@@ -82,4 +82,11 @@ public class ExpensesPresenter implements ExpensesInterface.Presenter {
     public void loadList() {
      //   this.view.loadList(expenses.ge);
     }
+
+    @Override
+    public void openCreateExpense(String idList) {
+        view.openCreateExpense(idList);
+    }
+
+
 }

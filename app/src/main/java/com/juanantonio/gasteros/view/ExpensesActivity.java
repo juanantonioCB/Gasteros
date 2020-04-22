@@ -3,9 +3,12 @@ package com.juanantonio.gasteros.view;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.juanantonio.gasteros.R;
 import com.juanantonio.gasteros.interfaces.ExpensesInterface;
 import com.juanantonio.gasteros.model.Expenses;
@@ -16,13 +19,14 @@ import com.juanantonio.gasteros.presenter.ListExpensesAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExpensesActivity extends AppCompatActivity implements ExpensesInterface.View, ExpensesAdapter.OnExpenseListener{
+public class ExpensesActivity extends AppCompatActivity implements ExpensesInterface.View, ExpensesAdapter.OnExpenseListener {
 
     ExpensesInterface.Presenter presenter;
     String id;
     private TextView title;
     private RecyclerView rv;
     private List<Expenses> expenses;
+    private FloatingActionButton addExpenseButton;
     ExpensesAdapter adapter;
 
     @Override
@@ -31,6 +35,14 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expenses);
         presenter = new ExpensesPresenter(this, id);
+        this.addExpenseButton = findViewById(R.id.addExpenseButton);
+        this.addExpenseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("ABRIRRRRRR");
+                presenter.openCreateExpense(id);
+            }
+        });
         this.title = findViewById(R.id.titleExpense);
         this.rv = findViewById(R.id.ExpensesRecyclerView);
         presenter.changeTitle(id);
@@ -47,14 +59,21 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
         if (expenses == null) {
             expenses = new ArrayList<>();
         }
-        this.expenses=expenses;
-        this.adapter=new ExpensesAdapter((ArrayList<Expenses>) expenses,this,this);
+        this.expenses = expenses;
+        this.adapter = new ExpensesAdapter((ArrayList<Expenses>) expenses, this, this);
         rv.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
     }
 
     @Override
+    public void openCreateExpense(String idList) {
+        Intent i = new Intent(this, CreateExpenseActivity.class);
+        i.putExtra("id", idList);
+        startActivity(i);
+    }
+
+    @Override
     public void onExpenseClick(int position) {
-        System.out.println("CLICKKK "+position);
+        System.out.println("CLICKKK " + position);
     }
 }

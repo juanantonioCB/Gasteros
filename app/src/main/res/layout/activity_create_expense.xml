@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Añadir Gasto"
+        android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,41 +24,43 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="15"
+        android:hint="Cantidad"
         android:inputType="textPersonName"
-        android:text="Cantidad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameCreateExpenseEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/titleCreateExpenseEditText" />
 
     <EditText
-        android:id="@+id/nameCreateExpenseEditText"
+        android:id="@+id/titleCreateExpenseEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="15"
+        android:hint="Título"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/FechaHoraCreateExpenseEditText"
+        android:id="@+id/dateHourCreateExpenseEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="10"
+        android:hint="Fecha y hora"
         android:inputType="date"
-        android:text="Fecha y hora"
-        app:layout_constraintEnd_toStartOf="@+id/ahoraButtonCreateExpenseEditText"
+        app:layout_constraintEnd_toStartOf="@+id/nowButtonCreateExpenseEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amountCreateExpenseEditText" />
 
     <Button
-        android:id="@+id/ahoraButtonCreateExpenseEditText"
+        android:id="@+id/nowButtonCreateExpenseEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:text="ahora"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amountCreateExpenseEditText" />
@@ -70,6 +73,6 @@
         android:text="GUARDAR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FechaHoraCreateExpenseEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/dateHourCreateExpenseEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

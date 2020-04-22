@@ -9,6 +9,7 @@ public interface ExpensesInterface {
     public interface View {
         void changeTitle(String title);
         void loadList(List<Expenses> expenses);
+        void openCreateExpense(String idList);
     }
 
     public interface Presenter {
@@ -16,5 +17,7 @@ public interface ExpensesInterface {
         void loadExpense(String id);
         void setListExpense(ListExpenses l);
         void loadList();
+        void openCreateExpense(String idList);
+
     }
 }

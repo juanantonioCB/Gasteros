@@ -2,6 +2,7 @@ package com.juanantonio.gasteros.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +31,7 @@ public class CreateExpenseActivity extends AppCompatActivity implements CreateEx
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_expense);
         this.presenter = new CreateExpensePresenter(this);
-        this.idList = getIntent().getStringExtra("idList");
+        this.idList = getIntent().getStringExtra("id");
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         this.idUser = user.getUid();
@@ -53,8 +54,15 @@ public class CreateExpenseActivity extends AppCompatActivity implements CreateEx
         e.setName(this.titleEditText.getText().toString());
         e.setAmount(Float.parseFloat(this.amountEditText.getText().toString()));
         e.setDate(new Date(this.dateEditText.getText().toString()));
+        System.out.println("asdfsadfasd"+this.idList);
         e.setListId(this.idList);
         e.setUserId(this.idUser);
         presenter.saveExpense(e);
+
+    }
+
+    @Override
+    public void comeBack() {
+        finish();
     }
 }

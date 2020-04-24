@@ -8,7 +8,16 @@ public class Expenses {
     private Date date;
     private String idExpense;
     private String userId;
+    private String idList;
 
+
+    public String getIdList() {
+        return idList;
+    }
+
+    public void setIdList(String idList) {
+        this.idList = idList;
+    }
     public String getIdExpense() {
         return idExpense;
     }

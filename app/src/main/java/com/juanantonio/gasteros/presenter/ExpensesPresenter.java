@@ -12,16 +12,19 @@ import com.juanantonio.gasteros.interfaces.ExpensesInterface;
 import com.juanantonio.gasteros.model.Expenses;
 import com.juanantonio.gasteros.model.ListExpenses;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExpensesPresenter implements ExpensesInterface.Presenter {
 
     ExpensesInterface.View view;
     private DatabaseReference dr;
-    private ListExpenses list;
+    private List<Expenses> list;
 
-    public ExpensesPresenter(ExpensesInterface.View view, String id) {
+    public ExpensesPresenter(ExpensesInterface.View view) {
         this.view = view;
         this.dr = FirebaseDatabase.getInstance().getReference();
-        this.loadExpense(id);
+        this.list = new ArrayList<>();
         System.out.println(this.list);
     }
 
@@ -34,10 +37,10 @@ public class ExpensesPresenter implements ExpensesInterface.Presenter {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot l : dataSnapshot.getChildren()) {
                         ListExpenses le = l.getValue(ListExpenses.class);
-                        System.out.println("----------------"+le);
+                        System.out.println("----------------" + le);
                         view.changeTitle(le.getName());
 
-                     //   setExpense(e);
+                        //   setExpense(e);
                     }
                 }
             }
@@ -47,45 +50,36 @@ public class ExpensesPresenter implements ExpensesInterface.Presenter {
 
             }
         });
-    //    view.changeTitle(expenses.getName());
+        //    view.changeTitle(expenses.getName());
     }
 
-    @Override
-    public void loadExpense(String id) {
-
-        Query q = this.dr.child("Listas").orderByChild("id").equalTo(id);
-        q.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot l : dataSnapshot.getChildren()) {
-                        System.out.println(l.getValue(Expenses.class));
-                        setListExpense(l.getValue(ListExpenses.class));
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    @Override
-    public void setListExpense(ListExpenses l) {
-        this.list = l;
-        System.out.println(">>>>>>>>>>>>>><"+this.list);
-    }
-
-    @Override
-    public void loadList() {
-     //   this.view.loadList(expenses.ge);
-    }
 
     @Override
     public void openCreateExpense(String idList) {
         view.openCreateExpense(idList);
+    }
+
+    @Override
+    public void loadExpenses(String idList) {
+        Query q = dr.child("Gastos").orderByChild("listId").equalTo(idList);
+        q.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                list.removeAll(list);
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot lista : dataSnapshot.getChildren()) {
+                        Expenses e = lista.getValue(Expenses.class);
+                        list.add(e);
+                    }
+                }
+                view.loadExpenses(list);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

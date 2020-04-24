@@ -36,7 +36,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ExpensesAdapter.ViewHolder holder, int position) {
         Expenses expenses = expensesList.get(position);
-        holder.name.setText(expenses.getName());
+        holder.title.setText(expenses.getName());
         holder.amount.setText((int) expenses.getAmount());
         holder.date.setText(expenses.getDate().toString());
         holder.name.setText(expenses.getUserId());
@@ -50,13 +50,14 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title, amount, date, name;
         OnExpenseListener onExpenseListener;
+
         public ViewHolder(@NonNull View itemView, OnExpenseListener onExpenseListener) {
             super(itemView);
             this.title = itemView.findViewById(R.id.titleExpenseRecyclerView);
             this.amount = itemView.findViewById(R.id.amountExpenseRecyclerView);
             this.date = itemView.findViewById(R.id.dateExpenseRecyclerView);
             this.name = itemView.findViewById(R.id.nameExpenseRecyclerView);
-            this.onExpenseListener=onExpenseListener;
+            this.onExpenseListener = onExpenseListener;
             itemView.setOnClickListener(this);
         }
 

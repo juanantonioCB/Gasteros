@@ -8,16 +8,14 @@ import java.util.List;
 public interface ExpensesInterface {
     public interface View {
         void changeTitle(String title);
-        void loadList(List<Expenses> expenses);
+
         void openCreateExpense(String idList);
+        void loadExpenses(List<Expenses> expenses);
     }
 
     public interface Presenter {
         void changeTitle(String id);
-        void loadExpense(String id);
-        void setListExpense(ListExpenses l);
-        void loadList();
         void openCreateExpense(String idList);
-
+        void loadExpenses(String idList);
     }
 }

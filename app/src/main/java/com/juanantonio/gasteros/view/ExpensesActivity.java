@@ -1,6 +1,7 @@
 package com.juanantonio.gasteros.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -22,30 +23,33 @@ import java.util.List;
 public class ExpensesActivity extends AppCompatActivity implements ExpensesInterface.View, ExpensesAdapter.OnExpenseListener {
 
     ExpensesInterface.Presenter presenter;
-    String id;
+    String idList;
     private TextView title;
     private RecyclerView rv;
     private List<Expenses> expenses;
     private FloatingActionButton addExpenseButton;
-    ExpensesAdapter adapter;
+    private ExpensesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        this.id = getIntent().getStringExtra("id");
+        this.idList = getIntent().getStringExtra("id");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expenses);
-        presenter = new ExpensesPresenter(this, id);
+        presenter = new ExpensesPresenter(this);
         this.addExpenseButton = findViewById(R.id.addExpenseButton);
         this.addExpenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("ABRIRRRRRR");
-                presenter.openCreateExpense(id);
+                presenter.openCreateExpense(idList);
             }
         });
         this.title = findViewById(R.id.titleExpense);
         this.rv = findViewById(R.id.ExpensesRecyclerView);
-        presenter.changeTitle(id);
+        this.rv.setHasFixedSize(true);
+        this.rv.setLayoutManager(new LinearLayoutManager(this));
+        presenter.changeTitle(idList);
+        presenter.loadExpenses(idList);
     }
 
     @Override
@@ -55,12 +59,16 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
     }
 
     @Override
-    public void loadList(List<Expenses> expenses) {
+    public void loadExpenses(List<Expenses> expenses) {
         if (expenses == null) {
             expenses = new ArrayList<>();
         }
         this.expenses = expenses;
+        System.out.println("xd" + expenses);
+
         this.adapter = new ExpensesAdapter((ArrayList<Expenses>) expenses, this, this);
+
+        System.out.println(this.adapter);
         rv.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
     }

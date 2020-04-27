@@ -5,7 +5,7 @@ import java.util.Date;
 public class Expenses {
     private String name;
     private float amount;
-    private Date date;
+    private Long date;
     private String idExpense;
     private String userId;
     private String idList;
@@ -26,11 +26,11 @@ public class Expenses {
         this.idExpense = idExpense;
     }
 
-    public Date getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

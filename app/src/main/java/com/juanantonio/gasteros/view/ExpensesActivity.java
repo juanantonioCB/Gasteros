@@ -40,7 +40,6 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
         this.addExpenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("ABRIRRRRRR");
                 presenter.openCreateExpense(idList);
             }
         });
@@ -64,11 +63,7 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
             expenses = new ArrayList<>();
         }
         this.expenses = expenses;
-        System.out.println("xd" + expenses);
-
         this.adapter = new ExpensesAdapter((ArrayList<Expenses>) expenses, this, this);
-
-        System.out.println(this.adapter);
         rv.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
     }

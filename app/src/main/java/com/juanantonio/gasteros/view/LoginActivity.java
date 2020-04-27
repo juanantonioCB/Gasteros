@@ -28,8 +28,8 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
         progressBar.setVisibility(View.INVISIBLE);
         registerButton = findViewById(R.id.registerButton);
         loginButton = findViewById(R.id.loginButton);
-        email = findViewById(R.id.emailEditTextLogin);
-        pass = findViewById(R.id.contraseñaEditTextLogin);
+        email = findViewById(R.id.emailEditTextRegister);
+        pass = findViewById(R.id.contraseñaEditTextRegister);
         registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println(presenter);

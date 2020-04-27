@@ -12,7 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.juanantonio.gasteros.R;
 import com.juanantonio.gasteros.model.Expenses;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHolder> {
@@ -37,14 +41,19 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
     public void onBindViewHolder(@NonNull ExpensesAdapter.ViewHolder holder, int position) {
         Expenses expenses = expensesList.get(position);
         holder.title.setText(expenses.getName());
-        holder.amount.setText((int) expenses.getAmount());
-        holder.date.setText(expenses.getDate().toString());
+        holder.amount.setText(String.valueOf(expenses.getAmount()));
+        Calendar c = new GregorianCalendar();
+        c.setTimeInMillis(expenses.getDate());
+        SimpleDateFormat f = new SimpleDateFormat("dd/M/y");
+        SimpleDateFormat h = new SimpleDateFormat("HH:mm");
+        f.format(c.getTime());
+        holder.date.setText(f.format(c.getTime()) + " | " + h.format(c.getTime()));
         holder.name.setText(expenses.getUserId());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return expensesList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -15,6 +15,9 @@ import com.juanantonio.gasteros.interfaces.CreateExpenseInterface;
 import com.juanantonio.gasteros.model.Expenses;
 import com.juanantonio.gasteros.presenter.CreateExpensePresenter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CreateExpenseActivity extends AppCompatActivity implements CreateExpenseInterface.View {
@@ -53,12 +56,17 @@ public class CreateExpenseActivity extends AppCompatActivity implements CreateEx
         Expenses e = new Expenses();
         e.setName(this.titleEditText.getText().toString());
         e.setAmount(Float.parseFloat(this.amountEditText.getText().toString()));
-        e.setDate(new Date(this.dateEditText.getText().toString()));
-        System.out.println("asdfsadfasd"+this.idList);
         e.setListId(this.idList);
         e.setUserId(this.idUser);
-        presenter.saveExpense(e);
-
+        SimpleDateFormat sdf = new SimpleDateFormat("d/M/y");
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(sdf.parse(this.dateEditText.getText().toString()));
+            e.setDate(c.getTimeInMillis());
+            presenter.saveExpense(e);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

@@ -39,18 +39,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <EditText
-        android:id="@+id/emailEditTextLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="@string/emailEjemplo"
-        android:inputType="textEmailAddress"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <EditText
+            android:id="@+id/emailEditTextRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/emailEjemplo"
+            android:inputType="textEmailAddress"
+            android:text="t@t.com"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/Contraseña"
@@ -63,7 +64,7 @@
         android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditTextLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/emailEditTextRegister" />
 
 
         <ProgressBar
@@ -76,17 +77,18 @@
             app:layout_constraintTop_toTopOf="@+id/loginButton" />
 
         <EditText
-        android:id="@+id/contraseñaEditTextLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="@string/contraseñaTitulo"
-        android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Contraseña" />
+            android:id="@+id/contraseñaEditTextRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="@string/contraseñaTitulo"
+            android:inputType="textPassword"
+            android:text="123456"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Contraseña" />
 
     <Button
         android:id="@+id/loginButton"
@@ -96,7 +98,7 @@
         android:text="@string/iniciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contraseñaEditTextLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/contraseñaEditTextRegister" />
 
     <Button
         android:id="@+id/registerButton"

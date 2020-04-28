@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.juanantonio.gasteros.interfaces.ExpensesInterface;
 import com.juanantonio.gasteros.model.Expenses;
 import com.juanantonio.gasteros.model.ListExpenses;
+import com.juanantonio.gasteros.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,6 @@ public class ExpensesPresenter implements ExpensesInterface.Presenter {
                         ListExpenses le = l.getValue(ListExpenses.class);
                         System.out.println("----------------" + le);
                         view.changeTitle(le.getName());
-
-                        //   setExpense(e);
                     }
                 }
             }
@@ -80,6 +79,28 @@ public class ExpensesPresenter implements ExpensesInterface.Presenter {
 
             }
         });
+    }
+
+    @Override
+    public String getName(String Uid) {
+        final String[] name = {null};
+        Query q= dr.child("Users").orderByChild("uid").equalTo(Uid);
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot user:dataSnapshot.getChildren()){
+                        name[0] = user.getValue(User.class).getName();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return name[0];
     }
 
 

@@ -17,5 +17,6 @@ public interface ExpensesInterface {
         void changeTitle(String id);
         void openCreateExpense(String idList);
         void loadExpenses(String idList);
+        String getName(String Uid);
     }
 }

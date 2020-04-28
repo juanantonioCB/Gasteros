@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.juanantonio.gasteros.GlobalApplication;
 import com.juanantonio.gasteros.R;
 import com.juanantonio.gasteros.interfaces.RegisterInterface;
 import com.juanantonio.gasteros.presenter.RegisterPresenter;
@@ -41,16 +43,22 @@ public class RegisterActivity extends AppCompatActivity implements RegisterInter
 
     @Override
     public void createUser() {
-        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Pattern pattern = Pattern
+                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
         Matcher mather = pattern.matcher(email.getText().toString());
-        if (pass1.getText().toString().equals(pass2.getText().toString()) && mather.find() && name.getText().toString().length() > 0
-                && pass1.getText().toString().length() < 6 && pass2.getText().toString().length() < 6) {
+
+        if (pass1.getText().toString().equals(pass2.getText().toString()) && mather.matches() && name.getText().toString().length() > 0
+                && pass1.getText().toString().length() >= 6 && pass2.getText().toString().length() >= 6) {
+            System.out.println("entra");
             presenter.registerUser(name.getText().toString(), email.getText().toString(), pass1.getText().toString());
         } else {
             if (!pass1.getText().toString().equals(pass2.getText().toString())) {
                 pass2.setError("La contraseña no coincide");
             }
-            if (!mather.find()) {
+            System.out.println(mather.find());
+
+            if (!mather.matches()) {
                 email.setError("El email es inválido");
             }
             if (name.getText().toString().length() == 0) {
@@ -60,5 +68,15 @@ public class RegisterActivity extends AppCompatActivity implements RegisterInter
                 pass1.setError("La contraseña debe tener como mínimo 6 caracteres");
             }
         }
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(GlobalApplication.getAppContext(),msg,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void exit() {
+        finish();
     }
 }

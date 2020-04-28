@@ -9,8 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.juanantonio.gasteros.R;
 import com.juanantonio.gasteros.model.Expenses;
+import com.juanantonio.gasteros.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +30,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
     private List<Expenses> expensesList;
     private Context context;
     private OnExpenseListener onExpenseListener;
+    private String name;
 
     public ExpensesAdapter(ArrayList<Expenses> expenses, Context context, OnExpenseListener onExpenseListener) {
         this.expensesList = expenses;
@@ -48,7 +56,12 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
         SimpleDateFormat h = new SimpleDateFormat("HH:mm");
         f.format(c.getTime());
         holder.date.setText(f.format(c.getTime()) + " | " + h.format(c.getTime()));
-        holder.name.setText(expenses.getUserId());
+        getName(expenses.getUserId());
+        holder.name.setText(name);
+
+
+
+
     }
 
     @Override
@@ -78,5 +91,24 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
 
     public interface OnExpenseListener {
         void onExpenseClick(int position);
+    }
+
+    public String getName(String Uid) {
+        DatabaseReference dr = FirebaseDatabase.getInstance().getReference();
+        Query q = dr.child("Users").orderByChild("uid").equalTo(Uid);
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot user : dataSnapshot.getChildren()) {
+                        name = user.getValue(User.class).getName();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+        return name;
     }
 }

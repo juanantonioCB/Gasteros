@@ -20,10 +20,10 @@ import java.util.List;
 
 public class ListExpensesPresenter implements ListExpensesInterface.Presenter {
 
-    ListExpensesInterface.View view;
+    private ListExpensesInterface.View view;
     private FirebaseAuth mAuth;
     private DatabaseReference dr;
-    ArrayList<ListExpenses> listExpenses = new ArrayList<>();
+    private ArrayList<ListExpenses> listExpenses = new ArrayList<>();
 
     public ListExpensesPresenter(ListExpensesInterface.View view) {
         this.view = view;
@@ -46,8 +46,8 @@ public class ListExpensesPresenter implements ListExpensesInterface.Presenter {
         list.setId(dr.child("Listas").push().getKey());
 
         this.dr.child("Listas").push().setValue(list);
-            System.out.println("okkkkk");
-            view.showToast("Lista añadida correctamente");
+        System.out.println("okkkkk");
+        view.showToast("Lista añadida correctamente");
 
         view.showToast("Lista añadida correctamente");
     }
@@ -87,7 +87,7 @@ public class ListExpensesPresenter implements ListExpensesInterface.Presenter {
         applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
                     appleSnapshot.getRef().removeValue();
                 }
             }

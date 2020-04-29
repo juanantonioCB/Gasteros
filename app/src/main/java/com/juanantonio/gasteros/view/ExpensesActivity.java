@@ -1,6 +1,8 @@
 package com.juanantonio.gasteros.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,8 +10,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.juanantonio.gasteros.GlobalApplication;
 import com.juanantonio.gasteros.R;
 import com.juanantonio.gasteros.interfaces.ExpensesInterface;
 import com.juanantonio.gasteros.model.Expenses;
@@ -17,6 +21,7 @@ import com.juanantonio.gasteros.presenter.ExpensesAdapter;
 import com.juanantonio.gasteros.presenter.ExpensesPresenter;
 import com.juanantonio.gasteros.presenter.ListExpensesAdapter;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +52,24 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
         this.rv = findViewById(R.id.ExpensesRecyclerView);
         this.rv.setHasFixedSize(true);
         this.rv.setLayoutManager(new LinearLayoutManager(this));
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback=new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                String id = expenses.get(viewHolder.getAdapterPosition()).getIdExpense();
+                presenter.removeExpense(id);
+                adapter.removeAt(viewHolder.getAdapterPosition());
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper=new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(rv);
+
         presenter.changeTitle(idList);
         presenter.loadExpenses(idList);
     }
@@ -69,6 +92,19 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
     }
 
     @Override
+    public void loadExpense(String idExpense) {
+        Intent i = new Intent(this, CreateExpenseActivity.class);
+        i.putExtra("idExpense",idExpense);
+        i.putExtra("id", idList);
+        startActivity(i);
+    }
+
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(GlobalApplication.getAppContext(),msg,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void openCreateExpense(String idList) {
         Intent i = new Intent(this, CreateExpenseActivity.class);
         i.putExtra("id", idList);
@@ -78,5 +114,6 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
     @Override
     public void onExpenseClick(int position) {
         System.out.println("CLICKKK " + position);
+        presenter.loadExpense(expenses.get(position).getIdExpense());
     }
 }

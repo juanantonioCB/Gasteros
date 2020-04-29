@@ -26,7 +26,6 @@ public class ExpensesPresenter implements ExpensesInterface.Presenter {
         this.view = view;
         this.dr = FirebaseDatabase.getInstance().getReference();
         this.list = new ArrayList<>();
-        System.out.println(this.list);
     }
 
     @Override
@@ -68,6 +67,7 @@ public class ExpensesPresenter implements ExpensesInterface.Presenter {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot lista : dataSnapshot.getChildren()) {
                         Expenses e = lista.getValue(Expenses.class);
+                        System.out.println("id expense "+e.getIdExpense());
                         list.add(e);
                     }
                 }
@@ -101,6 +101,28 @@ public class ExpensesPresenter implements ExpensesInterface.Presenter {
             }
         });
         return name[0];
+    }
+
+    @Override
+    public void loadExpense(String idExpense) {
+        view.loadExpense(idExpense);
+    }
+
+    @Override
+    public void removeExpense(String id) {
+        Query q = this.dr.child("Gastos").orderByChild("idExpense").equalTo(id);
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataSnapshot.getRef().removeValue();
+                view.showToast("Borrado correctamente");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.showToast("Ha ocurrido un error");
+            }
+        });
     }
 
 

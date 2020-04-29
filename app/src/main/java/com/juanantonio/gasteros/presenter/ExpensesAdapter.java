@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,11 +16,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.juanantonio.gasteros.R;
 import com.juanantonio.gasteros.model.Expenses;
 import com.juanantonio.gasteros.model.User;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -49,7 +45,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
     public void onBindViewHolder(@NonNull ExpensesAdapter.ViewHolder holder, int position) {
         Expenses expenses = expensesList.get(position);
         holder.title.setText(expenses.getName());
-        holder.amount.setText(String.valueOf(expenses.getAmount()));
+        holder.amount.setText(String.valueOf(expenses.getAmount()) + "€");
         Calendar c = new GregorianCalendar();
         c.setTimeInMillis(expenses.getDate());
         SimpleDateFormat f = new SimpleDateFormat("dd/M/y");
@@ -58,10 +54,6 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
         holder.date.setText(f.format(c.getTime()) + " | " + h.format(c.getTime()));
         getName(expenses.getUserId());
         holder.name.setText(name);
-
-
-
-
     }
 
     @Override
@@ -110,5 +102,11 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
             }
         });
         return name;
+    }
+
+    public void removeAt(int positon) {
+        expensesList.remove(positon);
+        notifyItemRemoved(positon);
+        notifyItemRangeChanged(positon, expensesList.size());
     }
 }

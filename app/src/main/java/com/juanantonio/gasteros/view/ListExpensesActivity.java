@@ -92,7 +92,6 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                System.out.println(input.getText().toString());
                 presenter.addNewList(input.getText().toString());
             }
         });
@@ -118,7 +117,6 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
         this.list = (ArrayList<ListExpenses>) listExpenses;
         adapter = new ListExpensesAdapter((ArrayList<ListExpenses>) listExpenses, this, this);
         rv.setAdapter(adapter);
-        System.out.println("--------------" + listExpenses.size());
         adapter.notifyDataSetChanged();
 
     }
@@ -133,7 +131,6 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
 
     @Override
     public void onListExpenseClick(int position) {
-        System.out.println("clikkkkk " + position);
         presenter.openListExpenses(this.list.get(position).getId());
     }
 }

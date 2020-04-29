@@ -7,10 +7,20 @@ public interface CreateExpenseInterface {
         void createExpense();
         void saveExpense(Expenses e);
         void comeBack();
+        void loadExpense(String id);
+        void loadHour();
+        void loadDate();
+        void nowDate();
+        void updateExpense(Expenses e);
     }
 
     public interface View {
         void createExpense();
         void comeBack();
+        void loadExpense(Expenses expense);
+        void loadHour();
+        void loadDate();
+        void nowDate();
+        void updateExpense();
     }
 }

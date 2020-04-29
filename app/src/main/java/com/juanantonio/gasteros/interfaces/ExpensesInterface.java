@@ -8,9 +8,10 @@ import java.util.List;
 public interface ExpensesInterface {
     public interface View {
         void changeTitle(String title);
-
         void openCreateExpense(String idList);
         void loadExpenses(List<Expenses> expenses);
+        void loadExpense(String idExpense);
+        void showToast(String msg);
     }
 
     public interface Presenter {
@@ -18,5 +19,7 @@ public interface ExpensesInterface {
         void openCreateExpense(String idList);
         void loadExpenses(String idList);
         String getName(String Uid);
+        void loadExpense(String idExpense);
+        void removeExpense(String id);
     }
 }

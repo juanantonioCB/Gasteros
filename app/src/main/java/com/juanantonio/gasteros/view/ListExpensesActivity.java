@@ -122,15 +122,17 @@ public class ListExpensesActivity extends AppCompatActivity implements ListExpen
     }
 
     @Override
-    public void openListExpenses(String id) {
+    public void openListExpenses(String id, String ownerId, String companyId) {
         Intent i = new Intent(this, ExpensesActivity.class);
         i.putExtra("id", id);
+        i.putExtra("ownerId", ownerId);
+        i.putExtra("companyId",companyId);
         startActivity(i);
     }
 
 
     @Override
     public void onListExpenseClick(int position) {
-        presenter.openListExpenses(this.list.get(position).getId());
+        presenter.openListExpenses(this.list.get(position).getId(), this.list.get(position).getOwnerId(), this.list.get(position).getCompanyId());
     }
 }

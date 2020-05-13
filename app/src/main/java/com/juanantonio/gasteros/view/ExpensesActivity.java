@@ -29,7 +29,9 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
 
     ExpensesInterface.Presenter presenter;
     String idList;
-    private TextView title;
+    String ownerId;
+    String companyId;
+    private TextView title, name, owner;
     private RecyclerView rv;
     private List<Expenses> expenses;
     private FloatingActionButton addExpenseButton;
@@ -38,6 +40,8 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.idList = getIntent().getStringExtra("id");
+        this.ownerId = getIntent().getStringExtra("ownerId");
+        this.companyId = getIntent().getStringExtra("companyId");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expenses);
         presenter = new ExpensesPresenter(this);
@@ -49,11 +53,13 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
             }
         });
         this.title = findViewById(R.id.titleExpense);
+        this.name = findViewById(R.id.ownerTextView);
+        this.owner = findViewById(R.id.companyTextView);
         this.rv = findViewById(R.id.ExpensesRecyclerView);
         this.rv.setHasFixedSize(true);
         this.rv.setLayoutManager(new LinearLayoutManager(this));
 
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback=new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return true;
@@ -67,11 +73,12 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
             }
         };
 
-        ItemTouchHelper itemTouchHelper=new ItemTouchHelper(simpleItemTouchCallback);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(rv);
 
         presenter.changeTitle(idList);
         presenter.loadExpenses(idList);
+        presenter.loadNames(ownerId, companyId);
     }
 
     @Override
@@ -94,14 +101,20 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
     @Override
     public void loadExpense(String idExpense) {
         Intent i = new Intent(this, CreateExpenseActivity.class);
-        i.putExtra("idExpense",idExpense);
+        i.putExtra("idExpense", idExpense);
         i.putExtra("id", idList);
         startActivity(i);
     }
 
     @Override
     public void showToast(String msg) {
-        Toast.makeText(GlobalApplication.getAppContext(),msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(GlobalApplication.getAppContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showNames(String owner, String company) {
+        this.name.setText("Propietario: " + owner);
+        this.owner.setText("Acompañante: " + company);
     }
 
     @Override

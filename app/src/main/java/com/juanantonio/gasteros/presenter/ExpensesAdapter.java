@@ -49,7 +49,7 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
         Calendar c = new GregorianCalendar();
         c.setTimeInMillis(expenses.getDate());
         SimpleDateFormat f = new SimpleDateFormat("dd/M/y");
-        SimpleDateFormat h = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat h = new SimpleDateFormat("k:mm");
         f.format(c.getTime());
         holder.date.setText(f.format(c.getTime()) + " | " + h.format(c.getTime()));
         getName(expenses.getUserId());

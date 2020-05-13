@@ -95,14 +95,13 @@ public class ListExpensesPresenter implements ListExpensesInterface.Presenter {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("ERROR", "onCancelled", databaseError.toException());
-                System.out.println("ERRORRRRRRRRRRRRRRRRRR");
             }
         });
     }
 
     @Override
-    public void openListExpenses(String id) {
-        view.openListExpenses(id);
+    public void openListExpenses(String id, String ownerId, String companyId) {
+        view.openListExpenses(id, ownerId, companyId);
     }
 
 

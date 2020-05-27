@@ -13,6 +13,7 @@ public interface ExpensesInterface {
         void loadExpense(String idExpense);
         void showToast(String msg);
         void showNames(String owner, String company);
+
     }
 
     public interface Presenter {
@@ -23,5 +24,6 @@ public interface ExpensesInterface {
         void loadExpense(String idExpense);
         void removeExpense(String id);
         void loadNames(String ownerId, String companyId);
+
     }
 }

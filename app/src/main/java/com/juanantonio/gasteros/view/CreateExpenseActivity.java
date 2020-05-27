@@ -112,8 +112,26 @@ public class CreateExpenseActivity extends AppCompatActivity implements CreateEx
     @Override
     public void createExpense() {
         Expenses e = new Expenses();
-        e.setName(this.titleEditText.getText().toString());
-        e.setAmount(Float.parseFloat(this.amountEditText.getText().toString()));
+
+        if (!this.titleEditText.getText().toString().equals("") &&
+                this.titleEditText.getText().toString().length() < 12) {
+            e.setName(this.titleEditText.getText().toString());
+
+        } else {
+            if (this.titleEditText.getText().toString().equals("")) {
+                this.titleEditText.setError("El título no debe ir vacío");
+            }
+            if (this.titleEditText.getText().toString().length() > 12) {
+                this.titleEditText.setError("Introduce un nombre más corto");
+            }
+        }
+        try {
+            if(!this.amountEditText.getText().toString().equals("")){
+                e.setAmount(Float.parseFloat(this.amountEditText.getText().toString()));
+            }
+        } catch (Exception ex) {
+            this.amountEditText.setError("Error");
+        }
         e.setListId(this.idList);
         e.setUserId(this.idUser);
         SimpleDateFormat sdf = new SimpleDateFormat("d/M/y");
@@ -127,8 +145,8 @@ public class CreateExpenseActivity extends AppCompatActivity implements CreateEx
             c.set(Calendar.MINUTE, hora.get(Calendar.MINUTE));
             e.setDate(c.getTimeInMillis());
             presenter.saveExpense(e);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
+        } catch (Exception ee) {
+
         }
     }
 

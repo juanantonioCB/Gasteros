@@ -87,8 +87,8 @@ public class ListExpensesPresenter implements ListExpensesInterface.Presenter {
         applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
-                    appleSnapshot.getRef().removeValue();
+                for (DataSnapshot listSnapshot : dataSnapshot.getChildren()) {
+                    listSnapshot.getRef().removeValue();
                 }
             }
 

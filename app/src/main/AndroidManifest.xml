@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.CreateExpenseActivity"></activity>
-        <activity android:name=".view.ExpensesActivity" />
+        <activity android:name=".view.ExpensesActivity"
+            android:parentActivityName=".view.ListExpensesActivity"
+            />
         <activity android:name=".view.ListExpensesActivity" />
         <activity android:name=".view.RegisterActivity" />
         <activity android:name=".view.LoginActivity">

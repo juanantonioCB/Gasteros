@@ -2,16 +2,16 @@ package com.juanantonio.gasteros.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.juanantonio.gasteros.GlobalApplication;
 import com.juanantonio.gasteros.R;
@@ -19,9 +19,7 @@ import com.juanantonio.gasteros.interfaces.ExpensesInterface;
 import com.juanantonio.gasteros.model.Expenses;
 import com.juanantonio.gasteros.presenter.ExpensesAdapter;
 import com.juanantonio.gasteros.presenter.ExpensesPresenter;
-import com.juanantonio.gasteros.presenter.ListExpensesAdapter;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +29,7 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
     String idList;
     String ownerId;
     String companyId;
-    private TextView title, name, owner;
+    private TextView title, name, owner, totalGasto;
     private RecyclerView rv;
     private List<Expenses> expenses;
     private FloatingActionButton addExpenseButton;
@@ -39,6 +37,7 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.idList = getIntent().getStringExtra("id");
         this.ownerId = getIntent().getStringExtra("ownerId");
         this.companyId = getIntent().getStringExtra("companyId");
@@ -56,6 +55,7 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
         this.name = findViewById(R.id.ownerTextView);
         this.owner = findViewById(R.id.companyTextView);
         this.rv = findViewById(R.id.ExpensesRecyclerView);
+        this.totalGasto = findViewById(R.id.totalGastotextView);
         this.rv.setHasFixedSize(true);
         this.rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -72,10 +72,8 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
                 adapter.removeAt(viewHolder.getAdapterPosition());
             }
         };
-
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(rv);
-
         presenter.changeTitle(idList);
         presenter.loadExpenses(idList);
         presenter.loadNames(ownerId, companyId);
@@ -84,7 +82,16 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
     @Override
     public void changeTitle(String title) {
         this.title.setText(title);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -96,6 +103,11 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
         this.adapter = new ExpensesAdapter((ArrayList<Expenses>) expenses, this, this);
         rv.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
+        float n = 0;
+        for (Expenses e : expenses) {
+            n += e.getAmount();
+        }
+        this.totalGasto.setText("Total gasto: "+String.valueOf(n)+"€");
     }
 
     @Override
@@ -126,7 +138,6 @@ public class ExpensesActivity extends AppCompatActivity implements ExpensesInter
 
     @Override
     public void onExpenseClick(int position) {
-        System.out.println("CLICKKK " + position);
         presenter.loadExpense(expenses.get(position).getIdExpense());
     }
 }

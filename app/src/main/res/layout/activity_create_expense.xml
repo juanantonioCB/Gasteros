@@ -30,7 +30,7 @@
             android:layout_marginTop="30dp"
             android:ems="15"
             android:hint="Cantidad"
-            android:inputType="textPersonName"
+            android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleCreateExpenseEditText" />

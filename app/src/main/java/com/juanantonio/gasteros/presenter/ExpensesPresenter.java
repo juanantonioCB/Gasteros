@@ -1,5 +1,7 @@
 package com.juanantonio.gasteros.presenter;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -12,7 +14,6 @@ import com.juanantonio.gasteros.interfaces.ExpensesInterface;
 import com.juanantonio.gasteros.model.Expenses;
 import com.juanantonio.gasteros.model.ListExpenses;
 import com.juanantonio.gasteros.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,17 +112,19 @@ public class ExpensesPresenter implements ExpensesInterface.Presenter {
 
     @Override
     public void removeExpense(String id) {
-        Query q = this.dr.child("Gastos").orderByChild("idExpense").equalTo(id);
-        q.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        Query applesQuery = ref.child("Gastos").orderByChild("idExpense").equalTo(id);
+        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataSnapshot.getRef().removeValue();
-                view.showToast("Borrado correctamente");
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot expenseSnapshot : dataSnapshot.getChildren()) {
+                    expenseSnapshot.getRef().removeValue();
+                }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                view.showToast("Ha ocurrido un error");
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("ERROR", "onCancelled", databaseError.toException());
             }
         });
     }

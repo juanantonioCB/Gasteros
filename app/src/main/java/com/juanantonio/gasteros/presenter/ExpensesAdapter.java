@@ -47,7 +47,10 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ViewHo
         holder.title.setText(expenses.getName());
         holder.amount.setText(String.valueOf(expenses.getAmount()) + "€");
         Calendar c = new GregorianCalendar();
-        c.setTimeInMillis(expenses.getDate());
+        if(expenses.getDate()!=null){
+            c.setTimeInMillis(expenses.getDate());
+
+        }
         SimpleDateFormat f = new SimpleDateFormat("dd/M/y");
         SimpleDateFormat h = new SimpleDateFormat("k:mm");
         f.format(c.getTime());

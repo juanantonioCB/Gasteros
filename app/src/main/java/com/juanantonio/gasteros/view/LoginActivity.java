@@ -46,6 +46,9 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface.V
                     loginButton.setVisibility(View.INVISIBLE);
                     progressBar.setVisibility(View.VISIBLE);
                     presenter.loginUser(e, p);
+                    registerButton.setVisibility(View.VISIBLE);
+                    loginButton.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });
